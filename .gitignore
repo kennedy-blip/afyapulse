@@ -16,6 +16,7 @@ android/app/src/main/assets/capacitor.plugins.json
 !.env.example
 .DS_Store
 *.apk
+!public/downloads/afyapulse.apk
 *.aab
 .gradle
 .idea
