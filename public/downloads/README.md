@@ -5,8 +5,8 @@ debug key and installable by sideloading.
 
 | | |
 |---|---|
-| Size | 5.5 MB (5749564 bytes) |
-| SHA-256 | `9076a237a27040c5c438f0602c3aa89de535e73008b8144a88b77846658b3a44` |
+| Size | 5.5 MB (5749759 bytes) |
+| SHA-256 | `3972dac0423d07f67bd018bac2dc88e8271329da5fb49b3cd4783eadab3589bc` |
 | Built from | `main` by the *Build Android APK* workflow |
 | Package | `ke.afyapulse.clinic` |
 
