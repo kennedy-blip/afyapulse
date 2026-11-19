@@ -228,8 +228,9 @@ regenerate `android/`.
   `VITE_APK_URL` to the release asset URL. The APK centre probes the file, checks
   the `PK` zip header and the content type, and only then shows a working download
   button; otherwise it explains how to build or offers PWA installation.
-- `vercel.json` already sends `.apk` files with the Android MIME type and an
-  attachment disposition.
+- `vercel.json` excludes `downloads/` from the SPA fallback, so a missing binary
+  returns a clean 404 instead of an HTML file wearing an APK content type. Vercel
+  serves a published `.apk` from `public/downloads/` directly.
 
 ---
 
