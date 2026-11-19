@@ -9,18 +9,23 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   apk:
-    name: Capacitor debug + release APK
+    name: Capacitor debug APK
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: '22'
           cache: npm
 
       - name: Install web dependencies
@@ -30,13 +35,23 @@ jobs:
         run: npm run build
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
 
+      # android-actions/setup-android v3 fails now that Google removed the
+      # deprecated "tools" SDK package. v4 skips it.
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4.0.4
+        with:
+          packages: platform-tools
+
+      - name: Install SDK platform and build tools
+        run: |
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager --install "platforms;android-34" "build-tools;34.0.0"
 
       - name: Ensure Android platform
         run: |
@@ -49,7 +64,7 @@ jobs:
 
       - name: Build debug APK
         working-directory: android
-        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Collect APK
         run: |
@@ -63,6 +78,7 @@ jobs:
           name: afyapulse-apk
           path: artifacts/afyapulse.apk
           if-no-files-found: error
+          retention-days: 14
 
       - name: Publish GitHub release asset
         if: startsWith(github.ref, 'refs/tags/v')
@@ -70,3 +86,17 @@ jobs:
         with:
           files: artifacts/afyapulse.apk
           generate_release_notes: true
+
+      # Artifacts expire and can be awkward to pull from locked-down networks,
+      # so a manual run also parks the exact binary on a dedicated branch that
+      # the release process can fast-forward from.
+      - name: Publish APK to artifact branch
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          mkdir -p public/downloads
+          cp artifacts/afyapulse.apk public/downloads/afyapulse.apk
+          git config user.name "AfyaPulse CI"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f public/downloads/afyapulse.apk
+          git commit -m "build: android apk for ${GITHUB_SHA::7}"
+          git push --force origin "HEAD:apk-artifact"
