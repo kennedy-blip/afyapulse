@@ -1,0 +1,56 @@
+{
+  "name": "AfyaPulse — Clinic Triage OS",
+  "short_name": "AfyaPulse",
+  "description": "Offline-first community health records, clinical triage, immunisation scheduling and dispensary stock control.",
+  "id": "/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#070d10",
+  "theme_color": "#070d10",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["medical", "health", "productivity"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Triage register",
+      "short_name": "Triage",
+      "description": "Register patients and record vitals",
+      "url": "./#triage"
+    },
+    {
+      "name": "Follow-ups",
+      "short_name": "Schedules",
+      "description": "ANC contacts and immunisation milestones",
+      "url": "./#schedules"
+    },
+    {
+      "name": "Pharmacy",
+      "short_name": "Pharmacy",
+      "description": "Stock, expiry and dispensing ledger",
+      "url": "./#pharmacy"
+    }
+  ]
+}

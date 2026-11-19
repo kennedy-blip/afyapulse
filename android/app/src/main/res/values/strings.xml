@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AfyaPulse</string>
+    <string name="title_activity_main">AfyaPulse</string>
+    <string name="package_name">ke.afyapulse.clinic</string>
+    <string name="custom_url_scheme">ke.afyapulse.clinic</string>
+</resources>
