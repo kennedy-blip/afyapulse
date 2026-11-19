@@ -59,6 +59,13 @@ jobs:
             npx cap add android
           fi
 
+      # The hosted APK lives in public/ for the web build; never copy it into
+      # the native shell (it would double the package size and nest a copy).
+      - name: Trim native web assets
+        run: |
+          rm -f dist/downloads/afyapulse.apk
+          rm -rf android/app/src/main/assets/public/downloads
+
       - name: Sync Capacitor
         run: npx cap sync android
 
