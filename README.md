@@ -223,7 +223,7 @@ regenerate `android/`.
 
 ### Publishing the binary
 - The current build is committed at `public/downloads/afyapulse.apk`
-  (5.5 MB, debug-signed, SHA-256 `9076a237a27040c5c438f0602c3aa89de535e73008b8144a88b77846658b3a44`), so the Settings →
+  (5.5 MB, debug-signed, SHA-256 `3972dac0423d07f67bd018bac2dc88e8271329da5fb49b3cd4783eadab3589bc`), so the Settings →
   APK centre offers a real one-tap download from the deployed site.
 - **GitHub Actions** (`.github/workflows/android.yml`) rebuilds it on demand:
   manual runs upload an artifact *and* park the binary on the `apk-artifact`
