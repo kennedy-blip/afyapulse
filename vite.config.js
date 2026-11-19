@@ -10,6 +10,10 @@ export default defineConfig({
     port: 5173,
     strictPort: false,
     allowedHosts: true,
+    watch: {
+      // The committed Android project contains a copy of dist — never reload on it.
+      ignored: ['**/android/**', '**/dist/**', '**/resources/**'],
+    },
   },
   preview: {
     host: '0.0.0.0',
