@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="clinical">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5" />
+    <meta name="description" content="AfyaPulse — offline-first community health, clinic triage, immunization scheduling and pharmacy stock control." />
+    <meta name="theme-color" content="#070d10" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AfyaPulse" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="./icons/icon-512.png" />
+    <link rel="apple-touch-icon" href="./icons/icon-512.png" />
+    <title>AfyaPulse — Clinic Triage OS</title>
+    <style>
+      html, body { margin: 0; background: #070d10; }
+      .boot-screen { position: fixed; inset: 0; display: grid; place-content: center; justify-items: center; gap: 18px; background: #070d10; z-index: 9999; }
+      .boot-pulse { width: 54px; height: 54px; border-radius: 999px; border: 2px solid #2dd4bf; box-shadow: 0 0 40px -4px #2dd4bf88; animation: bootBeat 1.3s ease-in-out infinite; }
+      .boot-label { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #6b8f92; margin: 0; font-family: system-ui, sans-serif; }
+      @keyframes bootBeat { 0%, 100% { transform: scale(0.88); opacity: 0.55; } 50% { transform: scale(1.06); opacity: 1; } }
+    </style>
+    <script>
+      // Paint the persisted theme before React mounts so there is never a flash of the wrong ward lighting.
+      try {
+        var saved = localStorage.getItem('afyapulse.theme');
+        if (saved === 'clinical' || saved === 'sterile' || saved === 'amber') {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch (e) {
+        /* storage can be blocked in private mode — default theme already applies */
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot-screen" aria-hidden="true">
+        <div class="boot-pulse"></div>
+        <p class="boot-label">AfyaPulse</p>
+      </div>
+    </div>
+    <noscript>
+      <div style="position:fixed;inset:0;display:grid;place-items:center;background:#070d10;color:#e7f8f6;font-family:system-ui,sans-serif;padding:24px;text-align:center">
+        AfyaPulse needs JavaScript and a modern browser to run its offline clinical database.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
