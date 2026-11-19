@@ -1,20 +1,29 @@
-# Android binary drop-point
+# Hosted Android binary
 
-The Settings → APK centre checks `./downloads/afyapulse.apk` for a compiled
-Capacitor package (it validates the ZIP/APK signature before offering the
-download). Deployment options:
+`afyapulse.apk` is the current Capacitor **debug** build, signed with the Android
+debug key and installable by sideloading.
 
-1. Run the **Build Android APK** GitHub Action, download the artifact and copy it
-   here as `afyapulse.apk`, then redeploy.
-2. Or publish the APK as a GitHub release asset and set `VITE_APK_URL` to that
-   asset URL in the Vercel project.
+| | |
+|---|---|
+| Size | 5.5 MB (5749564 bytes) |
+| SHA-256 | `9076a237a27040c5c438f0602c3aa89de535e73008b8144a88b77846658b3a44` |
+| Built from | `main` by the *Build Android APK* workflow |
+| Package | `ke.afyapulse.clinic` |
 
-Build locally with:
+The Settings → APK centre probes this file, checks the ZIP (`PK`) header and
+offers a one-tap download. Refresh it by running the workflow manually — the
+build parks the binary on the `apk-artifact` branch — then copy it here and
+redeploy.
 
 ```bash
-npm install
+git fetch origin apk-artifact
+git show FETCH_HEAD:public/downloads/afyapulse.apk > public/downloads/afyapulse.apk
 npm run build
-npx cap add android
-npm run cap:sync
-npm run apk:debug
+```
+
+For a store-ready build use a release keystore:
+
+```bash
+npm run apk:release
+# android/app/build/outputs/apk/release/app-release.apk
 ```
