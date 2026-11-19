@@ -222,15 +222,19 @@ side rail with live counters. `npm run cap:add` is only needed if you delete and
 regenerate `android/`.
 
 ### Publishing the binary
-- **GitHub Actions** (`.github/workflows/android.yml`) builds a debug APK on
-  demand and attaches it to a release when you push a `v*` tag.
-- Drop the artifact at `public/downloads/afyapulse.apk`, or set
-  `VITE_APK_URL` to the release asset URL. The APK centre probes the file, checks
-  the `PK` zip header and the content type, and only then shows a working download
-  button; otherwise it explains how to build or offers PWA installation.
+- The current build is committed at `public/downloads/afyapulse.apk`
+  (5.5 MB, debug-signed, SHA-256 `9076a237a27040c5c438f0602c3aa89de535e73008b8144a88b77846658b3a44`), so the Settings →
+  APK centre offers a real one-tap download from the deployed site.
+- **GitHub Actions** (`.github/workflows/android.yml`) rebuilds it on demand:
+  manual runs upload an artifact *and* park the binary on the `apk-artifact`
+  branch, `v*` tags publish it as a release asset.
+- Refresh the hosted file with `git fetch origin apk-artifact`, copy the binary
+  into `public/downloads/afyapulse.apk` and redeploy. `VITE_APK_URL` can point the
+  centre at an external mirror instead.
 - `vercel.json` excludes `downloads/` from the SPA fallback, so a missing binary
-  returns a clean 404 instead of an HTML file wearing an APK content type. Vercel
-  serves a published `.apk` from `public/downloads/` directly.
+  returns a clean 404 instead of an HTML file wearing an APK content type.
+- The hosted APK is debug-signed: Android will ask the user to allow installs
+  from the browser. Use `npm run apk:release` with your own keystore for Play.
 
 ---
 
